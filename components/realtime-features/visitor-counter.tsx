@@ -22,14 +22,16 @@ export function VisitorCounter() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
+
     const fetchRealStats = async () => {
       try {
         const supabase = createClient()
 
-        // Get total views
-        const { count: totalCount } = await supabase.from("analytics").select("*", { count: "exact", head: true })
+        const { count: totalCount } = await supabase
+          .from("analytics")
+          .select("*", { count: "exact", head: true })
 
-        // Get today's views
         const today = new Date()
         today.setHours(0, 0, 0, 0)
         const { count: todayCount } = await supabase
@@ -37,17 +39,14 @@ export function VisitorCounter() {
           .select("*", { count: "exact", head: true })
           .gte("created_at", today.toISOString())
 
-        // Get views in last 5 minutes (current viewers approximation)
         const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000)
         const { count: currentCount } = await supabase
           .from("analytics")
           .select("*", { count: "exact", head: true })
           .gte("created_at", fiveMinutesAgo.toISOString())
 
-        // Get top pages
-        const { data: pagesData } = await supabase.from("analytics").select("page").limit(1000)
+        const {  pagesData } = await supabase.from("analytics").select("page").limit(1000)
 
-        // Count page views
         const pageCounts: { [key: string]: number } = {}
         pagesData?.forEach((item) => {
           pageCounts[item.page] = (pageCounts[item.page] || 0) + 1
@@ -72,9 +71,7 @@ export function VisitorCounter() {
     }
 
     fetchRealStats()
-    // Update every 30 seconds
     const interval = setInterval(fetchRealStats, 30000)
-
     return () => clearInterval(interval)
   }, [])
 
@@ -104,7 +101,6 @@ export function VisitorCounter() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        {/* Current Visitors */}
         <div className="flex items-center gap-3 rounded-lg border border-border/50 bg-card/30 p-4">
           <div className="rounded-lg bg-green-500/10 p-2">
             <Eye className="h-5 w-5 text-green-400" />
@@ -115,7 +111,6 @@ export function VisitorCounter() {
           </div>
         </div>
 
-        {/* Today's Visitors */}
         <div className="flex items-center gap-3 rounded-lg border border-border/50 bg-card/30 p-4">
           <div className="rounded-lg bg-cyan-500/10 p-2">
             <Users className="h-5 w-5 text-cyan-400" />
@@ -126,7 +121,6 @@ export function VisitorCounter() {
           </div>
         </div>
 
-        {/* Total Visitors */}
         <div className="flex items-center gap-3 rounded-lg border border-border/50 bg-card/30 p-4">
           <div className="rounded-lg bg-purple-500/10 p-2">
             <TrendingUp className="h-5 w-5 text-purple-400" />
@@ -138,7 +132,6 @@ export function VisitorCounter() {
         </div>
       </div>
 
-      {/* Top Pages */}
       {stats.topPages.length > 0 && (
         <div className="mt-6">
           <div className="mb-3 flex items-center gap-2 text-sm font-medium">

@@ -10,11 +10,13 @@ interface GitHubStats {
   mostUsedLanguage: string
 }
 
-export function GitHubStats({ username = "sthembiso" }: { username?: string }) {
+export function GitHubStats({ username = "SthembisoGit" }: { username?: string }) {
   const [stats, setStats] = useState<GitHubStats | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
+
     const fetchGitHubStats = async () => {
       try {
         const response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`)
