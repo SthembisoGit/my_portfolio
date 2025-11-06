@@ -45,10 +45,10 @@ export function VisitorCounter() {
           .select("*", { count: "exact", head: true })
           .gte("created_at", fiveMinutesAgo.toISOString())
 
-        const {  pagesData } = await supabase.from("analytics").select("page").limit(1000)
+        const { data: pagesData } = await supabase.from("analytics").select("page").limit(1000)
 
         const pageCounts: { [key: string]: number } = {}
-        pagesData?.forEach((item) => {
+        pagesData?.forEach((item: { page: string }) => {
           pageCounts[item.page] = (pageCounts[item.page] || 0) + 1
         })
 
