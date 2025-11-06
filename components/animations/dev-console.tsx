@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+
 import { useState, useEffect, useRef } from "react"
 import { X, Terminal, Minimize2, Maximize2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -57,7 +58,221 @@ export function DevConsole() {
     let type: "success" | "error" | "info" = "info"
 
     switch (command) {
-      // ... (all other cases remain unchanged until 'resume') ...
+      case "help":
+        output = [
+          "Available commands:",
+          "",
+          "  whoami          - Display information about Sthembiso",
+          "  projects        - List all projects",
+          "  skills          - Show technical skills",
+          "  experience      - Display work experience",
+          "  education       - Show education background",
+          "  contact         - Get contact information",
+          "  resume          - Download resume PDF",
+          "  stats           - Show GitHub statistics",
+          "  availability    - Check current availability",
+          "  reviews         - Show recent reviews",
+          "  motivation      - Get a random programming quote",
+          "  secret          - Reveal a secret message",
+          "  matrix          - Enter the Matrix",
+          "  clear           - Clear the terminal",
+          "  help            - Show this help message",
+          "",
+        ]
+        type = "info"
+        break
+
+      case "availability":
+        output = [
+          "Current Availability Status:",
+          "",
+          "📅 Available: Weekdays 9 AM - 6 PM SAST (GMT+2)",
+          "🏢 Current: Completing WIL at Denel Aerospace",
+          "🎯 Seeking: Full-time opportunities from 2026",
+          "",
+          "Preferred Roles:",
+          "  • Full-Stack Developer",
+          "  • Backend Developer (Java/Python)",
+          "  • Software Engineer",
+          "",
+          "Contact me to schedule an interview or call!",
+          "",
+        ]
+        type = "success"
+        break
+
+      case "reviews":
+        output = ["Fetching recent reviews...", ""]
+        try {
+          const res = await fetch("/api/reviews")
+          const reviews = await res.json()
+          if (reviews.length > 0) {
+            output.push(`Total Reviews: ${reviews.length}`)
+            output.push("")
+            reviews.slice(0, 3).forEach((r: any, i: number) => {
+              output.push(`${i + 1}. ${r.name} - ${r.role} at ${r.company}`)
+              output.push(`   Rating: ${"⭐".repeat(r.rating)}`)
+              output.push(`   "${r.content.substring(0, 100)}..."`)
+              output.push("")
+            })
+          } else {
+            output.push("No reviews yet. Be the first to leave a review!")
+          }
+          type = "success"
+        } catch (error) {
+          output = ["Error fetching reviews. Please try again later."]
+          type = "error"
+        }
+        break
+
+      case "secret":
+        output = [
+          "",
+          "🎉 You found a secret command!",
+          "",
+          "Here's a fun fact: This entire portfolio was built with Next.js 16,",
+          "features 14+ interactive components, and has a Lighthouse score of 98+!",
+          "",
+          "Try typing 'matrix' for another surprise...",
+          "",
+        ]
+        type = "success"
+        break
+
+      case "matrix":
+        output = [
+          "",
+          "Wake up, Neo...",
+          "The Matrix has you...",
+          "Follow the white rabbit.",
+          "",
+          "🐰 Knock, knock, Neo.",
+          "",
+          "Just kidding! But seriously, check out the Matrix Rain effect",
+          "in the Experience section. It's pretty cool!",
+          "",
+        ]
+        type = "success"
+        break
+
+      case "whoami":
+        output = [
+          "sthembiso@portfolio:~$ whoami",
+          "",
+          "Name: Sthembiso Ndlovu",
+          "Role: Computer Science Student | Software Development Intern",
+          "Location: Tembisa, Gauteng, South Africa",
+          "",
+          "Summary:",
+          "Motivated Computer Science final year student with a strong foundation",
+          "in software development, databases, and problem-solving. Experienced in",
+          "customer-facing roles, technical support, and team collaboration.",
+          "",
+          "Specialties: Java | Python | SQL | Full-Stack Development",
+          "",
+        ]
+        type = "success"
+        break
+
+      case "projects":
+        output = ["Fetching projects from database...", ""]
+        try {
+          const res = await fetch("/api/projects")
+          const projects = await res.json()
+          if (projects.length > 0) {
+            projects.forEach((p: any, i: number) => {
+              output.push(`${i + 1}. ${p.title}`)
+              output.push(`   ${p.description}`)
+              output.push(`   Tech: ${p.technologies?.join(", ") || "N/A"}`)
+              output.push("")
+            })
+          } else {
+            output.push("No projects found. Add some in the admin panel!")
+          }
+          type = "success"
+        } catch (error) {
+          output = ["Error fetching projects. Please try again later."]
+          type = "error"
+        }
+        break
+
+      case "skills":
+        output = [
+          "Technical Skills:",
+          "",
+          "Languages:",
+          "  • Java, Python, JavaScript, HTML/CSS, SQL",
+          "",
+          "Technologies:",
+          "  • REST APIs, OOP & SDLC, Git & Version Control",
+          "  • Linux, System Analysis, Database Management",
+          "",
+          "Soft Skills:",
+          "  • Analytical problem-solving",
+          "  • Team collaboration and adaptability",
+          "  • Clear communication",
+          "  • Time management",
+          "",
+        ]
+        type = "success"
+        break
+
+      case "experience":
+        output = [
+          "Work Experience:",
+          "",
+          "1. Denel Aerospace – IT Intern (WIL)",
+          "   Sep 2025 – Present | Kempton Park, Gauteng",
+          "   • Completing Work Integrated Learning (WIL)",
+          "   • Provide IT and administrative support",
+          "   • System monitoring and technical documentation",
+          "",
+          "2. Outdoor Warehouse – Sales Assistant",
+          "   Mar 2024 – Sep 2025 | Witbank, Mpumalanga",
+          "   • Delivered excellent customer service",
+          "   • Maintained stock accuracy",
+          "",
+          "3. We Whiten – Lead Generator",
+          "   Nov 2024 – Jan 2025 | Remote, Texas, USA",
+          "   • Engaged customers via social media",
+          "   • Improved customer engagement",
+          "",
+        ]
+        type = "success"
+        break
+
+      case "education":
+        output = [
+          "Education:",
+          "",
+          "Tshwane University of Technology",
+          "2023 – Present",
+          "National Diploma: Computer Science",
+          "Major in Software Programming and Database Systems",
+          "",
+          "Umgnama Combined School",
+          "2021 | National Senior Certificate (Bachelor's Pass)",
+          "",
+        ]
+        type = "success"
+        break
+
+      case "contact":
+        output = [
+          "Contact Information:",
+          "",
+          "Email: sthembisosotsha@gmail.com",
+          "       224834659@tut4life.ac.za",
+          "Phone: 068 365 7773 / 060 743 1268",
+          "Location: Tembisa, 1632, Gauteng",
+          "",
+          "Social:",
+          "GitHub: github.com/SthembisoGit",
+          "LinkedIn: linkedin.com/in/sthejourney",
+          "",
+        ]
+        type = "success"
+        break
 
       case "resume":
         output = ["Downloading resume...", ""]
@@ -65,15 +280,9 @@ export function DevConsole() {
           const res = await fetch("/api/resume/active")
           const data = await res.json()
           if (data.url) {
-            // ✅ Guard window access
-            if (typeof window !== 'undefined') {
-              window.open(data.url, "_blank")
-              output.push("✓ Resume opened in new tab")
-              type = "success"
-            } else {
-              output.push("Resume URL: " + data.url)
-              type = "info"
-            }
+            window.open(data.url, "_blank")
+            output.push("✓ Resume opened in new tab")
+            type = "success"
           } else {
             output.push("No active resume found.")
             type = "error"
@@ -84,7 +293,38 @@ export function DevConsole() {
         }
         break
 
-      // ... (rest of cases unchanged) ...
+      case "stats":
+        output = ["Fetching GitHub statistics...", ""]
+        try {
+          const res = await fetch("https://api.github.com/users/SthembisoGit")
+          const data = await res.json()
+          output.push(`GitHub Stats for @${data.login}:`)
+          output.push("")
+          output.push(`Public Repos: ${data.public_repos}`)
+          output.push(`Followers: ${data.followers}`)
+          output.push(`Following: ${data.following}`)
+          output.push(`Public Gists: ${data.public_gists}`)
+          output.push("")
+          type = "success"
+        } catch (error) {
+          output = ["Error fetching GitHub stats. Please try again later."]
+          type = "error"
+        }
+        break
+
+      case "motivation":
+        const quotes = [
+          '"Code is like humor. When you have to explain it, it\'s bad." – Cory House',
+          '"First, solve the problem. Then, write the code." – John Johnson',
+          '"Experience is the name everyone gives to their mistakes." – Oscar Wilde',
+          '"In order to be irreplaceable, one must always be different." – Coco Chanel',
+          '"Java is to JavaScript what car is to Carpet." – Chris Heilmann',
+          '"The best error message is the one that never shows up." – Thomas Fuchs',
+          '"Simplicity is the soul of efficiency." – Austin Freeman',
+        ]
+        output = ["", quotes[Math.floor(Math.random() * quotes.length)], ""]
+        type = "success"
+        break
 
       case "clear":
         setHistory([])

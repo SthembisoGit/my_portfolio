@@ -14,7 +14,7 @@ interface Particle {
 export function ThreeDBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [particles, setParticles] = useState<Particle[]>([])
-const animationRef = useRef<number | null>(null)
+  const animationRef = useRef<number | null>(null)
 
   useEffect(() => {
     // Double guard: useEffect runs on client, but still check window

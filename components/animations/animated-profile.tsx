@@ -6,9 +6,9 @@ import Image from "next/image"
 export function AnimatedProfile() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
 
   useEffect(() => {
-    // Guard: ensure we're on the client
     if (typeof window === 'undefined') return
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -58,12 +58,23 @@ export function AnimatedProfile() {
         }}
       >
         <div className="relative h-full w-full bg-gradient-to-br from-cyan-500 via-purple-500 to-green-500">
-          <Image src="/professional-developer-portrait.png" alt="Sthembiso Ndlovu" fill className="object-cover" priority />
+          {/* Show fallback initials ONLY if image fails */}
+          {!imageLoaded && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-cyan-600/90 via-purple-600/90 to-green-600/90 backdrop-blur-sm">
+              <span className="text-6xl font-bold text-white">SN</span>
+            </div>
+          )}
 
-          {/* Overlay with initials as fallback */}
-          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-cyan-600/90 via-purple-600/90 to-green-600/90 backdrop-blur-sm">
-            <span className="text-6xl font-bold text-white">SN</span>
-          </div>
+          {/* Image with load handling */}
+          <Image
+            src="/myProfile.jpg"
+            alt="Sthembiso Ndlovu"
+            fill
+            className="object-cover"
+            priority
+            onLoad={() => setImageLoaded(true)}
+            onError={() => setImageLoaded(false)}
+          />
         </div>
       </div>
 
