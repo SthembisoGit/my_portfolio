@@ -8,9 +8,13 @@ export function AnimatedProfile() {
   const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
+    // Guard: ensure we're on the client
+    if (typeof window === 'undefined') return
+
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = document.getElementById("profile-container")?.getBoundingClientRect()
-      if (rect) {
+      const container = document.getElementById("profile-container")
+      if (container) {
+        const rect = container.getBoundingClientRect()
         setMousePosition({
           x: e.clientX - rect.left - rect.width / 2,
           y: e.clientY - rect.top - rect.height / 2,

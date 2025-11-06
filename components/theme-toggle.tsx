@@ -9,29 +9,54 @@ type Theme = "light" | "dark" | "neon" | "minimal"
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>("dark")
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const savedTheme = (localStorage.getItem("theme") as Theme) || "dark"
+    // 🔒 Guard: only run on the client
+    if (typeof window === 'undefined') return
+
+    // Load saved theme or default to 'dark'
+    const savedTheme = (typeof localStorage !== 'undefined'
+      ? (localStorage.getItem("theme") as Theme | null)
+      : null) || "dark"
+
     applyTheme(savedTheme)
+    setMounted(true)
   }, [])
 
+  // Apply theme safely (only on client)
   const applyTheme = (newTheme: Theme) => {
+    if (typeof window === 'undefined') return
+
     setTheme(newTheme)
-    localStorage.setItem("theme", newTheme)
 
-    // Remove all theme classes
-    document.documentElement.classList.remove("light", "dark", "neon", "minimal")
-
-    // Apply new theme
-    if (newTheme === "light") {
-      document.documentElement.classList.remove("dark")
-    } else if (newTheme === "dark") {
-      document.documentElement.classList.add("dark")
-    } else if (newTheme === "neon") {
-      document.documentElement.classList.add("dark", "neon")
-    } else if (newTheme === "minimal") {
-      document.documentElement.classList.add("minimal")
+    // Save to localStorage
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem("theme", newTheme)
     }
+
+    // Update document class list
+    const root = document.documentElement
+    root.classList.remove("light", "dark", "neon", "minimal")
+
+    if (newTheme === "light") {
+      root.classList.remove("dark")
+    } else if (newTheme === "dark") {
+      root.classList.add("dark")
+    } else if (newTheme === "neon") {
+      root.classList.add("dark", "neon")
+    } else if (newTheme === "minimal") {
+      root.classList.add("minimal")
+    }
+  }
+
+  // Prevent hydration mismatch by not rendering before mount
+  if (!mounted) {
+    return (
+      <Button variant="ghost" size="icon" disabled>
+        <Sun className="h-5 w-5 opacity-0" />
+      </Button>
+    )
   }
 
   return (

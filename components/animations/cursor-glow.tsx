@@ -7,6 +7,11 @@ export function CursorGlow() {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
+    // 🔒 Guard: ensure we're in the browser
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return
+    }
+
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY })
       setIsVisible(true)

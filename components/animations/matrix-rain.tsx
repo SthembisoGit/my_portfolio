@@ -6,6 +6,9 @@ export function MatrixRain() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
+    // 🔒 Guard: ensure we're in the browser
+    if (typeof window === 'undefined') return
+
     const canvas = canvasRef.current
     if (!canvas) return
 

@@ -9,18 +9,17 @@ export function PortfolioPDFGenerator() {
   const [isGenerating, setIsGenerating] = useState(false)
 
   const generatePDF = async () => {
+    // 🔒 Guard: ensure we're in the browser (defensive check)
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      console.error("PDF generation is only available in the browser")
+      return
+    }
+
     setIsGenerating(true)
 
     // Simulate PDF generation
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    // In a real implementation, you would:
-    // 1. Use a library like jsPDF or Puppeteer
-    // 2. Capture the portfolio content
-    // 3. Generate a formatted PDF
-    // 4. Trigger download
-
-    // For now, we'll create a simple text-based summary
     const portfolioData = {
       name: "Sthembiso Ndlovu",
       title: "Computer Science Student | Software Development Intern",
@@ -32,6 +31,9 @@ export function PortfolioPDFGenerator() {
       summary:
         "Motivated Computer Science final year student with strong foundation in software development and databases.",
     }
+
+    // ✅ Safely access window.location.origin
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://yourdomain.com'
 
     const content = `
 STHEMBISO NDLOVU
@@ -59,7 +61,7 @@ Tshwane University of Technology
 National Diploma: Computer Science | 2023 – Present
 
 ---
-Generated from portfolio: ${window.location.origin}
+Generated from portfolio: ${baseUrl}
     `
 
     const blob = new Blob([content], { type: "text/plain" })

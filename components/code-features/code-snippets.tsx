@@ -102,6 +102,12 @@ export function CodeSnippets() {
   const [copied, setCopied] = useState(false)
 
   const copyCode = () => {
+    // 🔒 Guard: ensure we're in the browser
+    if (typeof navigator === 'undefined' || !navigator.clipboard) {
+      console.warn("Clipboard API not available")
+      return
+    }
+
     navigator.clipboard.writeText(snippets[selectedSnippet].code)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)

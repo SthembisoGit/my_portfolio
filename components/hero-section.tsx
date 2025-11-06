@@ -12,18 +12,42 @@ import { useEffect, useState } from "react"
 
 export function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
 
   useEffect(() => {
+    // Initialize with real window size on client
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    })
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY })
     }
 
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
+    }
+
     window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
+    window.addEventListener("resize", handleResize)
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove)
+      window.removeEventListener("resize", handleResize)
+    }
   }, [])
 
-  const parallaxX = (mousePosition.x - window.innerWidth / 2) * 0.01
-  const parallaxY = (mousePosition.y - window.innerHeight / 2) * 0.01
+  // Safe parallax calculation: fallback to 0 during SSR
+  const parallaxX = windowSize.width
+    ? (mousePosition.x - windowSize.width / 2) * 0.01
+    : 0
+  const parallaxY = windowSize.height
+    ? (mousePosition.y - windowSize.height / 2) * 0.01
+    : 0
 
   return (
     <section id="home" className="relative min-h-screen pt-16">

@@ -14,9 +14,12 @@ interface Particle {
 export function ThreeDBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [particles, setParticles] = useState<Particle[]>([])
-  const animationRef = useRef<number>()
+const animationRef = useRef<number | null>(null)
 
   useEffect(() => {
+    // Double guard: useEffect runs on client, but still check window
+    if (typeof window === 'undefined') return
+
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -51,32 +54,27 @@ export function ThreeDBackground() {
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
       newParticles.forEach((particle) => {
-        // Update position
         particle.x += particle.vx
         particle.y += particle.vy
         particle.z -= particle.vz
 
-        // Reset if particle goes off screen
         if (particle.z < 1) {
           particle.z = 1000
           particle.x = Math.random() * canvas.width
           particle.y = Math.random() * canvas.height
         }
 
-        // 3D projection
         const scale = 500 / particle.z
         const x2d = particle.x * scale + canvas.width / 2
         const y2d = particle.y * scale + canvas.height / 2
         const size = scale * 2
-
-        // Draw particle
         const opacity = 1 - particle.z / 1000
+
         ctx.fillStyle = `rgba(6, 182, 212, ${opacity})`
         ctx.beginPath()
         ctx.arc(x2d, y2d, size, 0, Math.PI * 2)
         ctx.fill()
 
-        // Draw trail
         ctx.strokeStyle = `rgba(168, 85, 247, ${opacity * 0.3})`
         ctx.lineWidth = size / 2
         ctx.beginPath()

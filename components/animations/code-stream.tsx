@@ -6,6 +6,9 @@ export function CodeStream() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
+    // 🔒 Guard: ensure we're on the client
+    if (typeof window === 'undefined') return
+
     const canvas = canvasRef.current
     if (!canvas) return
 
