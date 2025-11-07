@@ -1,20 +1,20 @@
 -- Insert sample projects
 INSERT INTO public.projects (title, description, long_description, technologies, github_url, live_url, featured, order_index) VALUES
 (
-  'E-Commerce Platform',
+  'JuveniQ',
   'Full-stack e-commerce solution with payment integration',
   'A comprehensive e-commerce platform built with modern web technologies. Features include product catalog, shopping cart, secure checkout with Stripe integration, order management, and admin dashboard. Implemented responsive design and optimized for performance.',
-  ARRAY['React', 'Node.js', 'PostgreSQL', 'Stripe', 'Tailwind CSS'],
+  ARRAY['React', 'Node.js', 'Formspree', 'Tailwind CSS'],
   'https://github.com/sthembiso/ecommerce',
-  'https://ecommerce-demo.vercel.app',
+  'www.juveniq.co.za',
   TRUE,
   1
 ),
 (
-  'Task Management System',
+  'ReputeIQ',
   'Collaborative project management tool with real-time updates',
   'A real-time task management application that enables teams to collaborate effectively. Features include kanban boards, task assignments, due dates, comments, file attachments, and real-time notifications using WebSockets.',
-  ARRAY['Next.js', 'TypeScript', 'Supabase', 'WebSockets'],
+  ARRAY['Next.js', 'TypeScript', 'Supabase', 'News API', 'Facebook API', 'Twitter API', 'LinkedIn API' ],
   'https://github.com/sthembiso/taskmanager',
   'https://taskmanager-demo.vercel.app',
   TRUE,
@@ -31,11 +31,11 @@ INSERT INTO public.projects (title, description, long_description, technologies,
   3
 ),
 (
-  'Social Media Analytics',
+  'Lumin',
   'Analytics dashboard for social media metrics',
   'A comprehensive analytics platform for tracking social media performance across multiple platforms. Features include engagement metrics, audience insights, content performance tracking, and exportable reports.',
   ARRAY['Vue.js', 'Python', 'FastAPI', 'PostgreSQL', 'D3.js'],
-  'https://github.com/sthembiso/social-analytics',
+  'https://github.com/sthembiso/LUMIN',
   NULL,
   TRUE,
   4
