@@ -1,7 +1,8 @@
-// app/components/ContactSection.tsx
 "use client"
 
-import React, { useEffect, useRef, useState } from "react"
+import type React from "react"
+
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,111 +11,50 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Mail, MapPin, Phone } from "lucide-react"
 import { TerminalAnimation } from "@/components/animations/terminal-animation"
 
-type FormState = {
-  name: string
-  email: string
-  subject: string
-  message: string
-}
-
 export function ContactSection() {
   const [isLoading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showTerminal, setShowTerminal] = useState(false)
 
-  const [formData, setFormData] = useState<FormState>({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   })
 
-  // fallback timeout in case terminal animation never calls onComplete
-  const terminalFallbackRef = useRef<number | null>(null)
-
-  useEffect(() => {
-    return () => {
-      if (terminalFallbackRef.current) {
-        clearTimeout(terminalFallbackRef.current)
-      }
-    }
-  }, [])
-
-  const validate = (d: FormState) => {
-    if (!d.name.trim()) return "Please enter your name."
-    if (!d.email.trim()) return "Please enter your email."
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) return "Please enter a valid email."
-    if (!d.subject.trim()) return "Please enter a subject."
-    if (!d.message.trim()) return "Please enter a message."
-    return null
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
     setError(null)
     setSuccess(false)
-
-    const clientError = validate(formData)
-    if (clientError) {
-      setError(clientError)
-      return
-    }
-
-    setIsLoading(true)
+    setShowTerminal(true)
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       })
 
-      // try parse JSON safely
-      let payload: any = null
-      try {
-        payload = await response.json()
-      } catch {
-        payload = null
-      }
-
       if (!response.ok) {
-        const message =
-          payload?.error || payload?.message || `Failed to send message (status ${response.status})`
-        throw new Error(message)
+        throw new Error("Failed to send message")
       }
 
-      // success acknowledged by server — show terminal animation
-      setShowTerminal(true)
-
-      // fallback: if TerminalAnimation doesn't call onComplete, settle after 12s
-      terminalFallbackRef.current = window.setTimeout(() => {
-        handleTerminalComplete()
-      }, 12_000)
+      // Terminal animation will handle the success state
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An unknown error occurred.")
-      setIsLoading(false)
+      setError(err instanceof Error ? err.message : "An error occurred")
       setShowTerminal(false)
+      setIsLoading(false)
     }
   }
 
   const handleTerminalComplete = () => {
-    // clear any fallback
-    if (terminalFallbackRef.current) {
-      clearTimeout(terminalFallbackRef.current)
-      terminalFallbackRef.current = null
-    }
-
     setSuccess(true)
     setShowTerminal(false)
     setIsLoading(false)
     setFormData({ name: "", email: "", subject: "", message: "" })
-
-    // hide success after a short time (optional)
-    setTimeout(() => setSuccess(false), 5000)
   }
 
   return (
@@ -167,7 +107,7 @@ export function ContactSection() {
             </Card>
           </div>
 
-          <Card className="lg:col-span-2 relative">
+          <Card className="lg:col-span-2">
             <CardContent className="p-6">
               {showTerminal && (
                 <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/80 backdrop-blur-sm">
@@ -181,11 +121,11 @@ export function ContactSection() {
                     <Label htmlFor="name">Name *</Label>
                     <Input
                       id="name"
+                      required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="Your name"
                       className="transition-all focus:border-cyan-500/50 focus:shadow-lg focus:shadow-cyan-500/20"
-                      required
                     />
                   </div>
 
@@ -194,11 +134,11 @@ export function ContactSection() {
                     <Input
                       id="email"
                       type="email"
+                      required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="your.email@example.com"
                       className="transition-all focus:border-cyan-500/50 focus:shadow-lg focus:shadow-cyan-500/20"
-                      required
                     />
                   </div>
                 </div>
@@ -207,11 +147,11 @@ export function ContactSection() {
                   <Label htmlFor="subject">Subject *</Label>
                   <Input
                     id="subject"
+                    required
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     placeholder="What's this about?"
                     className="transition-all focus:border-cyan-500/50 focus:shadow-lg focus:shadow-cyan-500/20"
-                    required
                   />
                 </div>
 
@@ -219,18 +159,18 @@ export function ContactSection() {
                   <Label htmlFor="message">Message *</Label>
                   <Textarea
                     id="message"
+                    required
                     rows={6}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Tell me about your project..."
                     className="transition-all focus:border-cyan-500/50 focus:shadow-lg focus:shadow-cyan-500/20"
-                    required
                   />
                 </div>
 
                 {success && (
                   <p className="animate-in fade-in slide-in-from-bottom-2 text-sm text-green-600 dark:text-green-400">
-                    Message saved — thanks! I'll get back to you soon.
+                    Message sent successfully! I'll get back to you soon.
                   </p>
                 )}
 
@@ -239,7 +179,7 @@ export function ContactSection() {
                 <Button
                   type="submit"
                   size="lg"
-                  disabled={isLoading || showTerminal}
+                  disabled={isLoading}
                   className="shadow-lg shadow-primary/20 transition-all hover:shadow-primary/40"
                 >
                   {isLoading ? "Sending..." : "Send Message"}
