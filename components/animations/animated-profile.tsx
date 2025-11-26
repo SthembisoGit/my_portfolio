@@ -8,8 +8,9 @@ export function AnimatedProfile() {
   const [isHovered, setIsHovered] = useState(false)
   const [imageLoaded, setImageLoaded] = useState(false)
 
+  // Track mouse position for subtle tilt
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    if (typeof window === "undefined") return
 
     const handleMouseMove = (e: MouseEvent) => {
       const container = document.getElementById("profile-container")
@@ -26,8 +27,8 @@ export function AnimatedProfile() {
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
-  const tiltX = isHovered ? mousePosition.y * 0.05 : 0
-  const tiltY = isHovered ? -mousePosition.x * 0.05 : 0
+  const tiltX = isHovered ? mousePosition.y * 0.03 : 0
+  const tiltY = isHovered ? -mousePosition.x * 0.03 : 0
 
   return (
     <div
@@ -36,66 +37,58 @@ export function AnimatedProfile() {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Animated rings */}
-      <div className="absolute inset-0 animate-spin-slow">
-        <div className="absolute inset-0 rounded-full border-2 border-cyan-500/30 border-t-cyan-500" />
-      </div>
-      <div className="absolute inset-2 animate-spin-reverse">
-        <div className="absolute inset-0 rounded-full border-2 border-purple-500/30 border-b-purple-500" />
-      </div>
-      <div className="absolute inset-4 animate-spin-slow">
-        <div className="absolute inset-0 rounded-full border-2 border-green-500/30 border-r-green-500" />
+      {/* Subtle Tech Rings */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 rounded-full border-2 border-cyan-400/20" />
+        <div className="absolute inset-1 rounded-full border-2 border-purple-400/20" />
+        <div className="absolute inset-2 rounded-full border-2 border-green-400/20" />
       </div>
 
-      {/* Glow effect */}
-      <div className="absolute inset-6 rounded-full bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-green-500/20 blur-xl transition-all duration-300 group-hover:blur-2xl" />
+      {/* Glow */}
+      <div className="absolute inset-3 rounded-full bg-gradient-to-br from-cyan-400/20 via-purple-400/20 to-green-400/20 blur-lg transition-all duration-300" />
 
-      {/* Profile image container */}
+      {/* Profile Image */}
       <div
-        className="absolute inset-6 overflow-hidden rounded-full border-4 border-background shadow-2xl shadow-cyan-500/20 transition-all duration-300"
+        className="absolute inset-3 overflow-hidden rounded-full border-2 border-background shadow-lg transition-transform duration-300"
         style={{
-          transform: `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${isHovered ? 1.05 : 1})`,
+          transform: `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${isHovered ? 1.03 : 1})`,
         }}
       >
-        <div className="relative h-full w-full bg-gradient-to-br from-cyan-500 via-purple-500 to-green-500">
-          {/* Show fallback initials ONLY if image fails */}
-          {!imageLoaded && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-cyan-600/90 via-purple-600/90 to-green-600/90 backdrop-blur-sm">
-              <span className="text-6xl font-bold text-white">SN</span>
-            </div>
-          )}
+        {!imageLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-cyan-500/80 via-purple-500/80 to-green-500/80">
+            <span className="text-5xl font-bold text-white">SN</span>
+          </div>
+        )}
 
-          {/* Image with load handling */}
-          <Image
-            src="/myProfile.jpg"
-            alt="Sthembiso Ndlovu"
-            fill
-            className="object-cover"
-            priority
-            onLoad={() => setImageLoaded(true)}
-            onError={() => setImageLoaded(false)}
-          />
-        </div>
+        <Image
+          src="/myProfile.jpg"
+          alt="Sthembiso Ndlovu"
+          fill
+          className="object-cover"
+          priority
+          onLoad={() => setImageLoaded(true)}
+          onError={() => setImageLoaded(false)}
+        />
       </div>
 
-      {/* Floating particles */}
+      {/* Floating tech particles */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(6)].map((_, i) => (
+        {[...Array(5)].map((_, i) => (
           <div
             key={i}
             className="absolute h-1 w-1 rounded-full bg-cyan-400 animate-float"
             style={{
-              left: `${20 + i * 15}%`,
-              top: `${10 + (i % 3) * 30}%`,
-              animationDelay: `${i * 0.5}s`,
-              animationDuration: `${3 + i * 0.5}s`,
+              left: `${15 + i * 16}%`,
+              top: `${10 + (i % 3) * 28}%`,
+              animationDelay: `${i * 0.4}s`,
+              animationDuration: `${2.5 + i * 0.5}s`,
             }}
           />
         ))}
       </div>
 
       {/* Status indicator */}
-      <div className="absolute bottom-8 right-8 flex items-center gap-2 rounded-full border-2 border-background bg-green-500 px-3 py-1 shadow-lg">
+      <div className="absolute bottom-4 right-4 flex items-center gap-2 rounded-full border-2 border-background bg-green-500 px-3 py-1 shadow-md">
         <div className="h-2 w-2 animate-pulse rounded-full bg-white" />
         <span className="text-xs font-semibold text-white">Available</span>
       </div>

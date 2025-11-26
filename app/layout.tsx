@@ -7,8 +7,9 @@ import { DevConsole } from "@/components/animations/dev-console"
 import { AIChatbot } from "@/components/ai-features/ai-chatbot"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+// Fonts with CSS variables
+const _geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
+const _geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" })
 
 export const metadata: Metadata = {
   title: "Sthembiso Ndlovu - Computer Science Student | Software Developer",
@@ -23,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased`}>
+    <html lang="en" className={`${_geist.variable} ${_geistMono.variable}`}>
+      <body className="font-mono antialiased">
         <AnalyticsTracker />
         {children}
         <DevConsole />

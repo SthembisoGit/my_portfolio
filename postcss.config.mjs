@@ -4,14 +4,5 @@ const config = {
     '@tailwindcss/postcss': {},
   },
 }
-module.exports = {
-  theme:{
-    extend:{
-      fontFamily:{
-        code:['Fira Code', 'monospace',],
-      },
-    },
-  },
-}
 
 export default config

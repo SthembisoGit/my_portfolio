@@ -5,17 +5,39 @@ import { ArrowRight, Github, Linkedin, Mail } from "lucide-react"
 import Link from "next/link"
 import { ResumeDownloadButton } from "@/components/resume-download-button"
 import { ParticleBackground } from "@/components/animations/particle-background"
-import { TypingText } from "@/components/animations/typing-text"
 import { GitHubStats } from "@/components/animations/github-stats"
 import { AnimatedProfile } from "@/components/animations/animated-profile"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
+
+// ✅ Enhanced TypingText: types forward only, smooth, no delete, cursor stays at end
+function TypingText({ text, speed = 20 }: { text: string; speed?: number }) {
+  const [displayedText, setDisplayedText] = useState("")
+  const indexRef = useRef(0)
+
+  useEffect(() => {
+    if (indexRef.current >= text.length) return
+
+    const timer = setTimeout(() => {
+      setDisplayedText(text.slice(0, indexRef.current + 1))
+      indexRef.current += 1
+    }, speed)
+
+    return () => clearTimeout(timer)
+  }, [displayedText, text, speed])
+
+  return (
+    <span className="inline-block">
+      {displayedText}
+      <span className="ml-0.5 inline-block h-5 w-px animate-pulse bg-foreground align-text-bottom" />
+    </span>
+  )
+}
 
 export function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
 
   useEffect(() => {
-    // Initialize with real window size on client
     setWindowSize({
       width: window.innerWidth,
       height: window.innerHeight,
@@ -41,7 +63,6 @@ export function HeroSection() {
     }
   }, [])
 
-  // Safe parallax calculation: fallback to 0 during SSR
   const parallaxX = windowSize.width
     ? (mousePosition.x - windowSize.width / 2) * 0.01
     : 0
@@ -49,11 +70,16 @@ export function HeroSection() {
     ? (mousePosition.y - windowSize.height / 2) * 0.01
     : 0
 
+  const bioText =
+  "Motivated Computer Science final-year student with hands-on experience in IT support, troubleshooting, and software development. " +
+  "Skilled in Java (OOP, Internet Programming – Servlets, JSP, JDBC, 3-Tier Architecture), Python, React, Node.js, SQL, TypeScript, and full-stack fundamentals. " +
+  "Experienced in enterprise environments, customer-facing roles, and remote collaboration. " +
+  "Eager to contribute technical expertise and problem-solving skills in a professional development environment.";
+  
   return (
     <section id="home" className="relative min-h-screen pt-16">
       <ParticleBackground />
 
-      {/* Background gradient with parallax */}
       <div
         className="absolute inset-0 -z-10 bg-gradient-to-br from-cyan-500/5 via-background to-purple-500/5 transition-transform duration-300"
         style={{
@@ -73,19 +99,13 @@ export function HeroSection() {
             </div>
 
             <h1 className="animate-in fade-in slide-in-from-bottom-4 text-balance text-5xl font-bold tracking-tight duration-1000 sm:text-6xl lg:text-7xl">
-              Hi, I'm{" "}
-              <span className="font-code">
-                Sthembiso Ndlovu
-              </span>
+              Hi, I'm <span className="font-code">Sthembiso Ndlovu</span>
             </h1>
 
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
               <p className="mx-auto max-w-2xl text-pretty text-lg text-muted-foreground sm:text-xl">
-                <TypingText
-                  texts={[
-                    "Motivated Computer Science final year student with a strong foundation in software development, databases,and problem-solving. Experienced in Mobile & Web Development, customer-facing roles, technical support, and team collaboration through WIL at Denel Aerospace, retail sales, international remote work, and Start-up Tech Company. Skilled in Java, Python, SQL, and full stack fundamentals with practical exposure to Git, REST APIs, and system analysis. Eager to contribute technical expertise, adaptability, and a passion for building solutions in a professional development environment.",
-                  ]}
-                />
+                {/* ✅ Use the improved TypingText with faster speed and no delete */}
+                <TypingText text={bioText} speed={15} />
               </p>
             </div>
 
