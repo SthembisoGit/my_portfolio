@@ -69,7 +69,7 @@ export function HeroSection() {
   const parallaxY = windowSize.height
     ? (mousePosition.y - windowSize.height / 2) * 0.01
     : 0
-
+ 
   const bioText =
   "Motivated Computer Science final-year student with hands-on experience in IT support, troubleshooting, and software development. " +
   "Skilled in Java (OOP, Internet Programming – Servlets, JSP, JDBC, 3-Tier Architecture), Python, React, Node.js, SQL, TypeScript, and full-stack fundamentals. " +
