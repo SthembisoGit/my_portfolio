@@ -22,9 +22,8 @@ const education = [
     location: "Pongola, South Africa",
     period: "2021",
     achievements: [
-      "Subjects: Mathematics, Life Sciences, Geography",
-      "Agricultural Sciences, IsiZulu HL, English FAL",
-      "Life Orientation",
+      "Subjects: Mathematics, Life Sciences, Geography, Agricultural Sciences, IsiZulu HL, English FAL, Life Orientation",
+     
     ],
   },
 ]

@@ -5,10 +5,12 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Send, Bot, User, X, Minimize2, Maximize2 } from "lucide-react"
 
+
 interface Message {
   role: "user" | "assistant"
   content: string
 }
+
 
 const knowledgeBase = {
   skills: "Java, Python, JavaScript, HTML/CSS, SQL, REST APIs, Git, Linux, System Analysis",
@@ -153,12 +155,11 @@ export function AIChatbot() {
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-50 transition-all ${
-        isMinimized ? "h-14 w-64" : "h-[600px] w-96"
-      } max-w-[calc(100vw-3rem)]`}
+      className={`fixed bottom-6 right-6 z-50 transition-all ${isMinimized ? "h-14 w-64" : "h-[600px] w-96"
+        } max-w-[calc(100vw-3rem)]`}
     >
       <Card className="flex h-full flex-col border-2 border-cyan-500/30 bg-card/95 backdrop-blur-sm">
-        {/* ... existing code for header and messages ... */}
+
         <div className="flex items-center justify-between border-b border-border p-4">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-cyan-500 to-purple-500">
@@ -166,7 +167,7 @@ export function AIChatbot() {
             </div>
             <div>
               <div className="font-semibold">AI Assistant</div>
-              <div className="text-xs text-muted-foreground">Ask me anything</div>
+              <div className="text-xs text-muted-foreground">Ask me anything.</div>
             </div>
           </div>
           <div className="flex gap-1">
@@ -190,11 +191,10 @@ export function AIChatbot() {
                     </div>
                   )}
                   <div
-                    className={`max-w-[80%] whitespace-pre-line rounded-lg p-3 ${
-                      message.role === "user"
+                    className={`max-w-[80%] whitespace-pre-line rounded-lg p-3 ${message.role === "user"
                         ? "bg-cyan-500/20 text-foreground"
                         : "bg-secondary text-secondary-foreground"
-                    }`}
+                      }`}
                   >
                     {message.content}
                   </div>

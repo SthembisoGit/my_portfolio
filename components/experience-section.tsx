@@ -6,12 +6,11 @@ import { useEffect, useRef, useState } from "react"
 
 const experiences = [
   {
-    title: "IT Intern (WIL)",
+    title: "IT Support Intern",
     company: "Denel Aerospace",
     location: "Kempton Park, Gauteng, South Africa",
-    period: "Sep 2025 – Present",
+    period: "Sep 2025 – 28 NOV 2025",
     description: [
-      "Completing Work Integrated Learning (WIL) as part of Computer Science qualification",
       "Provide IT and administrative support, including system monitoring and technical documentation",
       "Assist with troubleshooting and escalating issues, following professional workflows",
       "Collaborate with cross-functional teams, gaining exposure to enterprise-level environments",

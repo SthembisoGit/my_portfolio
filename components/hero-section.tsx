@@ -74,19 +74,16 @@ export function HeroSection() {
 
             <h1 className="animate-in fade-in slide-in-from-bottom-4 text-balance text-5xl font-bold tracking-tight duration-1000 sm:text-6xl lg:text-7xl">
               Hi, I'm{" "}
-              <span className="bg-gradient-to-r from-cyan-500 via-purple-500 to-green-500 bg-clip-text text-transparent">
+              <span className="font-code">
                 Sthembiso Ndlovu
               </span>
             </h1>
 
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
               <p className="mx-auto max-w-2xl text-pretty text-lg text-muted-foreground sm:text-xl">
                 <TypingText
                   texts={[
-                    "Computer Science Student | Software Development Intern",
-                    "Java Developer | Python Enthusiast",
-                    "Building scalable solutions with modern technologies",
-                    "Passionate about problem-solving and innovation",
+                    "Motivated Computer Science final year student with a strong foundation in software development, databases,and problem-solving. Experienced in Mobile & Web Development, customer-facing roles, technical support, and team collaboration through WIL at Denel Aerospace, retail sales, international remote work, and Start-up Tech Company. Skilled in Java, Python, SQL, and full stack fundamentals with practical exposure to Git, REST APIs, and system analysis. Eager to contribute technical expertise, adaptability, and a passion for building solutions in a professional development environment.",
                   ]}
                 />
               </p>

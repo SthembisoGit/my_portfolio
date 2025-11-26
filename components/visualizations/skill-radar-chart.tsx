@@ -12,7 +12,7 @@ interface SkillData {
 
 const skillsData: SkillData[] = [
   { skill: "Java", level: 85, yearsExperience: 3, projects: 8 },
-  { skill: "Python", level: 75, yearsExperience: 2, projects: 5 },
+  { skill: "Python", level: 60, yearsExperience: 2, projects: 2 },
   { skill: "JavaScript", level: 80, yearsExperience: 2, projects: 10 },
   { skill: "SQL", level: 85, yearsExperience: 3, projects: 12 },
   { skill: "Git", level: 80, yearsExperience: 2, projects: 15 },
@@ -110,13 +110,13 @@ export function SkillRadarChart() {
         // Draw point
         ctx.beginPath()
         ctx.arc(x, y, hoveredIndex === index ? 8 : 5, 0, Math.PI * 2)
-        ctx.fillStyle = hoveredIndex === index ? "rgba(168, 85, 247, 1)" : "rgba(6, 182, 212, 1)"
+        ctx.fillStyle = hoveredIndex === index ? "rgba(7, 219, 43, 1)" : "rgba(6, 182, 212, 1)"
         ctx.fill()
 
         // Draw label
         const labelX = centerX + Math.cos(angle) * (maxRadius + 40)
         const labelY = centerY + Math.sin(angle) * (maxRadius + 40)
-        ctx.fillStyle = hoveredIndex === index ? "#a855f7" : "#fff"
+        ctx.fillStyle = hoveredIndex === index ? "#07da2aff" : "#fff"
         ctx.font = hoveredIndex === index ? "bold 14px sans-serif" : "12px sans-serif"
         ctx.textAlign = "center"
         ctx.textBaseline = "middle"
@@ -172,7 +172,7 @@ export function SkillRadarChart() {
       <div className="flex flex-col items-center gap-4 lg:flex-row">
         <canvas ref={canvasRef} width={400} height={400} className="max-w-full" />
         {selectedSkill && (
-          <div className="w-full rounded-lg border border-purple-500/30 bg-purple-500/10 p-4 lg:w-64">
+          <div className="w-full rounded-lg border border-green-500/30 bg-purple-500/10 p-4 lg:w-64">
             <h4 className="mb-2 text-lg font-bold text-purple-400">{selectedSkill.skill}</h4>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">

@@ -36,7 +36,7 @@ export function ReviewsSection() {
     company: "",
     content: "",
     rating: 5,
-    linkedin_url: "",
+    linkedin_url: "https://linkedin.com/in/your_username",
   })
 
   useEffect(() => {

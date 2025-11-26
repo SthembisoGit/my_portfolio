@@ -3,9 +3,9 @@ import { ProjectCard } from "@/components/project-card"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 
-export const revalidate = 60 // Revalidate every 60 seconds
+export const revalidate = 60 
 
-export default async function ProjectsPage() {
+export default async function ProjectsPage(){
   const supabase = await createClient()
 
   const { data: projects } = await supabase.from("projects").select("*").order("order_index", { ascending: true })

@@ -10,7 +10,7 @@ export async function GET() {
       .select("*")
       .eq("approved", true)
       .order("created_at", { ascending: false })
-
+ 
     if (error) throw error
 
     return NextResponse.json(data || [])

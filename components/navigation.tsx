@@ -19,13 +19,13 @@ export function Navigation() {
   }, [])
 
   const navLinks = [
-    { href: "#home", label: "Home" },
-    { href: "#skills", label: "Skills" },
-    { href: "#experience", label: "Experience" },
-    { href: "#education", label: "Education" },
+    { href: "/#home", label: "Home" },
+    { href: "/#skills", label: "Skills" },
+    { href: "/#experience", label: "Experience" },
+    { href: "/#education", label: "Education" },
     { href: "/projects", label: "Projects" },
     { href: "/blog", label: "Blog" },
-    { href: "#contact", label: "Contact" },
+    { href: "/#contact", label: "Contact" },
   ]
 
   return (

@@ -28,11 +28,9 @@ export default function HomePage() {
       <Navigation />
       <main>
         <HeroSection />
-        <section className="py-12">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <VisitorCounter />
-          </div>
-        </section>
+         <ExperienceSection />
+        <EducationSection />
+        
         <SkillsSection />
         <section className="py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -42,45 +40,16 @@ export default function HomePage() {
             </div>
             <div className="space-y-8">
               <SkillRadarChart />
-              <div className="grid gap-8 lg:grid-cols-2">
-                <ContributionHeatmap />
-                <ProjectTimeline />
-              </div>
             </div>
           </div>
         </section>
-        <section className="bg-black/20 py-24">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-16 text-center">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Code Showcase</h2>
-              <p className="mt-4 text-lg text-muted-foreground">
-                See my code in action with portfolio-related examples
-              </p>
-            </div>
-            <div className="space-y-8">
-              <LivePlayground />
-              <PerformanceDashboard />
-            </div>
-          </div>
-        </section>
-        <ExperienceSection />
-        <EducationSection />
+        
+       <AvailabilityCalendar />
         <ReviewsSection />
-        <section className="py-24">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-16 text-center">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Utility Tools</h2>
-              <p className="mt-4 text-lg text-muted-foreground">Helpful tools for recruiters and collaborators</p>
-            </div>
-            <div className="space-y-8">
-              <TechStackTool />
-              <div className="grid gap-8 lg:grid-cols-2">
-                <AvailabilityCalendar />
-                <PortfolioPDFGenerator />
-              </div>
-            </div>
-          </div>
-        </section>
+       
+                
+               
+         
         <ContactSection />
       </main>
       <Footer />

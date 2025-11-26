@@ -60,10 +60,10 @@ export function AvailabilityCalendar() {
         date: date.toISOString().split("T")[0],
         day: daysOfWeek[dayOfWeek],
         slots: [
-          { time: "09:00 - 11:00", available: isWeekday },
+          { time: "08:00 - 11:00", available: isWeekday },
           { time: "11:00 - 13:00", available: isWeekday },
           { time: "14:00 - 16:00", available: isWeekday },
-          { time: "16:00 - 18:00", available: isWeekday },
+          { time: "16:00 - 18:00", available: isWeekday || !isWeekday },
         ],
       })
     }
@@ -140,7 +140,7 @@ export function AvailabilityCalendar() {
           <div className="mb-1 font-semibold">Current Availability</div>
           <p className="text-sm text-muted-foreground">
             Available weekdays 9 AM - 6 PM SAST (GMT+2). Currently completing WIL at Denel Aerospace. Available for
-            full-time opportunities from 2026.
+            full-time opportunities immediately.
           </p>
         </div>
       </div>

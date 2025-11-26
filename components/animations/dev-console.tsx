@@ -49,11 +49,14 @@ export function DevConsole() {
     }
   }, [history])
 
+
+
+
   const executeCommand = async (cmd: string) => {
     const trimmedCmd = cmd.trim().toLowerCase()
     const args = trimmedCmd.split(" ")
     const command = args[0]
-
+    
     let output: string[] = []
     let type: "success" | "error" | "info" = "info"
 
@@ -157,7 +160,7 @@ export function DevConsole() {
 
       case "whoami":
         output = [
-          "sthembiso@portfolio:~$ whoami",
+
           "",
           "Name: Sthembiso Ndlovu",
           "Role: Computer Science Student | Software Development Intern",
@@ -389,9 +392,8 @@ export function DevConsole() {
 
   return (
     <Card
-      className={`fixed z-50 border-2 border-cyan-500/50 bg-black/95 font-mono text-sm shadow-2xl shadow-cyan-500/50 backdrop-blur-sm transition-all ${
-        isMinimized ? "bottom-24 right-6 h-14 w-80" : "bottom-24 right-6 h-[600px] w-[800px] max-w-[calc(100vw-3rem)]"
-      }`}
+      className={`fixed z-50 border-2 border-cyan-500/50 bg-black/95 font-mono text-sm shadow-2xl shadow-cyan-500/50 backdrop-blur-sm transition-all ${isMinimized ? "bottom-24 right-6 h-14 w-80" : "bottom-24 right-6 h-[600px] w-[800px] max-w-[calc(100vw-3rem)]"
+        }`}
     >
       <div className="flex items-center justify-between border-b border-cyan-500/50 bg-cyan-500/10 px-4 py-2">
         <div className="flex items-center gap-2">
@@ -432,9 +434,8 @@ export function DevConsole() {
                   {cmd.input}
                 </div>
                 <div
-                  className={`mt-1 whitespace-pre-wrap ${
-                    cmd.type === "error" ? "text-red-400" : cmd.type === "success" ? "text-green-400" : "text-gray-300"
-                  }`}
+                  className={`mt-1 whitespace-pre-wrap ${cmd.type === "error" ? "text-red-400" : cmd.type === "success" ? "text-green-400" : "text-gray-300"
+                    }`}
                 >
                   {cmd.output.join("\n")}
                 </div>

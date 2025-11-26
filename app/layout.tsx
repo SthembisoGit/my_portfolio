@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Sthembiso Ndlovu - Computer Science Student | Software Developer",
   description:
     "Portfolio of Sthembiso Ndlovu, a Computer Science student and Software Development Intern specializing in Java, Python, and Full-Stack Development",
-  generator: "v0.app",
+  generator: "JuveniQ",
 }
 
 export default function RootLayout({
