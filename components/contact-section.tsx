@@ -87,7 +87,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h3 className="font-semibold">Phone</h3>
-                  <p className="text-sm text-muted-foreground">068 365 7773</p>
+          
                   <p className="text-sm text-muted-foreground">060 743 1268</p>
                 </div>
               </CardContent>
